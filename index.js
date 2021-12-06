@@ -25,22 +25,22 @@ const data = [
 const logger = (req, res, next) => {
     console.log(`${req.method} ${req.url}`);
     const login = true;
-    if(login) {
+    if (login) {
         next();
     } else {
-        res.json({error: "anda belum login !"})
+        res.json({ error: "anda belum login !" })
     }
 }
 
 
-app.set("view engine", "ejs");
+// app.set("view engine", "ejs");
 
-app.get("/greeting", (req,res) => {
-    let name = "Rahmat Alfianto"
-    const nameFromUser = req.query.name;
-    if(nameFromUser) name = nameFromUser
-    res.render("index", {name: name})
-})
+// app.get("/greeting", (req, res) => {
+//     let name = "Rahmat Alfianto"
+//     const nameFromUser = req.query.name;
+//     if (nameFromUser) name = nameFromUser
+//     res.render("index", { name: name })
+// })
 
 // app.use(logger);
 
@@ -59,18 +59,18 @@ app.get("/woi/coi", (req, res) => res.send("<h1>hello coi<h1>"));
 //     }
 // });
 
-app.get("/", function(req,res,next){
-    logger(req,res,next)
-}, (req,res) => res.send("Rahmat News"));
+app.get("/", function (req, res, next) {
+    logger(req, res, next)
+}, (req, res) => res.send("Rahmat News"));
 
-app.get("/berita", (req,res,next)=>{
+app.get("/berita", (req, res, next) => {
     res.json(data)
-    logger(req,res,next)
+    logger(req, res, next)
     next()
-}, function(req,res,next){
+}, function (req, res, next) {
     console.log("Rahmattttt");
     next()
-}, function(req,res,next){
+}, function (req, res, next) {
     console.log("Apaaaa");
     // next() //tidak perlu
 });
@@ -79,16 +79,19 @@ app.get("/berita", (req,res,next)=>{
 app.get("/berita/:idBerita", (req, res) => {
     const idBerita = req.params.idBerita;
     const detailBerita = data.filter((item) => item.id === parseInt(idBerita));
-    if(detailBerita.length === 0)  {
-        res.json({error : `jumlah berita hanya ada ${data.length}`});
+    if (detailBerita.length === 0) {
+        res.json({ error: `jumlah berita hanya ada ${data.length}` });
     } else {
         res.json(detailBerita)
     }
 });
 
-// app.get("/category")
+// app.get("/category", (req, res) => {
+//     const nameCategory = req.query.name;
+//     res.json({"Category": nameCategory})
+// })
 
 
-app.listen(port, () =>console.log("app berjalan pada port " + port)); //best practice
+app.listen(port, () => console.log("app berjalan pada port " + port)); //best practice
 // app.listen(port, console.log("app berjalan di port " + port));
 // app.listen(port);
